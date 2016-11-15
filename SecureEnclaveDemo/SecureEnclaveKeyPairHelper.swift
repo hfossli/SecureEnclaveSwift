@@ -130,7 +130,6 @@ final class SecureEnclaveHelper {
             kSecAttrLabel as String: privateLabel,
             kSecAttrIsPermanent as String: true,
             kSecAttrAccessControl as String: accessControl,
-            kSecAttrApplicationTag as String: privateLabel,
             ]
         
         let params: [String: Any] = [
