@@ -13,7 +13,7 @@ final class Manager {
     static let shared = Manager()
     private init() {}
     
-    private let helper = SecureEnclaveHelper(publicLabel: "no.agens.demo.publicKey", privateLabel: "no.agens.demo.privateKey")
+    private let helper = SecureEnclaveHelper(publicLabel: "no.agens.demo.publicKey", privateLabel: "no.agens.demo.privateKey", operationPrompt: "Authenticate to continue")
     
     func deleteKeyPair() throws {
         try helper.deletePublicKey()

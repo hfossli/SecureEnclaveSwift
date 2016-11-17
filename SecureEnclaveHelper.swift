@@ -62,14 +62,16 @@ final class SecureEnclaveHelper {
     
     let publicLabel: String
     let privateLabel: String
+    let operationPrompt: String
     
     /*!
      @param publicLabel The user visible label in the device's key chain
      @param privateLabel The label used to identify the key in the secure enclave
      */
-    init(publicLabel: String, privateLabel: String) {
+    init(publicLabel: String, privateLabel: String, operationPrompt: String) {
         self.publicLabel = publicLabel
         self.privateLabel = privateLabel
+        self.operationPrompt = operationPrompt
     }
     
     func sign(_ digest: Data, privateKey: SecureEnclaveKeyReference) throws -> Data {
@@ -118,7 +120,7 @@ final class SecureEnclaveHelper {
             kSecAttrKeyClass as String: kSecAttrKeyClassPrivate,
             kSecAttrLabel as String: privateLabel,
             kSecReturnRef as String: true,
-            kSecUseOperationPrompt as String: "Authenticate to sign data",
+            kSecUseOperationPrompt as String: self.operationPrompt,
             ]
         let raw = try getSecKeyWithQuery(query)
         return SecureEnclaveKeyReference(raw as! SecKey)
