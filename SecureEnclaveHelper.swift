@@ -210,6 +210,15 @@ final class SecureEnclaveHelper {
         }
     }
     
+    func accessControl(with protection: CFString = kSecAttrAccessibleWhenPasscodeSetThisDeviceOnly, flags: SecAccessControlCreateFlags = [.userPresence, .privateKeyUsage]) throws -> SecAccessControl {
+        var accessControlError: Unmanaged<CFError>?
+        let accessControl = SecAccessControlCreateWithFlags(kCFAllocatorDefault, protection, flags, &accessControlError)
+        guard accessControl != nil else {
+            throw SecureEnclaveHelperError(message: "Could not generate access control. Error \(accessControlError?.takeRetainedValue())", osStatus: nil)
+        }
+        return accessControl!
+    }
+    
     private var attrKeyTypeEllipticCurve: String {
         if #available(iOS 10.0, *) {
             return kSecAttrKeyTypeECSECPrimeRandom as String
